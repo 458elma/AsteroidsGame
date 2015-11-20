@@ -41,6 +41,7 @@ public void draw()
 public void keyPressed() {
   private int num = (int)(Math.random()*801);
   private int num2 = (int)(Math.random()*801);
+  private int num3 = (int)(Math.random()*360);
   //moveForward
   if(key == 'w') {
     ship.accelerate(0.5);
@@ -69,9 +70,12 @@ public void keyPressed() {
     ship.setY(num2);
     ship.setDirectionX(0);
     ship.setDirectionY(0);
-    ship.setPointDirection((int)(Math.random()*360));
+    ship.setPointDirection(num3);
     fuego.setX(num);
     fuego.setY(num2);
+    fuego.setDirectionX(0);
+    fuego.setDirectionY(0);
+    fuego.setPointDirection(num3);
   }
 
 }
@@ -141,7 +145,7 @@ class SpaceShip extends Floater
       yCorners[5] = 4; 
       xCorners[6] = -7; 
       yCorners[6] = -4;
-      myColor = 75;
+      myColor = 150;
       //myColor2 = 0;
       //myColor3 = 0;
       myCenterX = 400;
@@ -184,7 +188,7 @@ class Asteroids extends Floater
       yCorners[6] = -4;
       xCorners[7] = -5; 
       yCorners[7] = -11; 
-      myColor = 150;
+      myColor = 75;
       myCenterX = (int)(Math.random()*800);
       myCenterY = (int)(Math.random()*800);;
       myDirectionX = 0;
