@@ -67,6 +67,9 @@ public void keyPressed() {
   if(key == 'h') {
     ship.setX(num);
     ship.setY(num2);
+    ship.setDirectionX(0);
+    ship.setDirectionY(0);
+    ship.setPointDirection((int)(Math.random()*360));
     fuego.setX(num);
     fuego.setY(num2);
   }
