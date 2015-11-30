@@ -40,9 +40,9 @@ public void draw()
   fuego.move();
 }
 public void keyPressed() {
-  private int num = (int)(Math.random()*801);
-  private int num2 = (int)(Math.random()*801);
-  private int num3 = (int)(Math.random()*360);
+  int num = (int)(Math.random()*801);
+  int num2 = (int)(Math.random()*801);
+  int num3 = (int)(Math.random()*360);
   //moveForward
   if(key == 'w') {
     ship.accelerate(0.5);
