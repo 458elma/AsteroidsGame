@@ -31,8 +31,14 @@ public void draw()
   for(int i = 0;i<roids.size();i++) {
     roids.get(i).show();
     roids.get(i).move();
+    if(((ship.getX() < (roids.get(i).getX()+25))&&(ship.getX() > (roids.get(i).getX()-25)))&&((ship.getY() < (roids.get(i).getY()+25))&&(ship.getY() > (roids.get(i).getY()-25)))) {
+      roids.remove(i);
+      
+      roids.add(new Asteroids());
+      //roids.add(new Asteroids());
+    }
   }
- 
+
   //roids.getDirectionX()++;
   //roids.getDirectionY()++;
     
