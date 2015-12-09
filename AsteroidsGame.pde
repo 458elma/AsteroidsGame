@@ -1,5 +1,6 @@
 //your variable declarations here
 SpaceShip ship;
+ArrayList <Bullet> ammo;
 ArrayList <Asteroids> roids;
 Fire fuego;
 Star[] bunch = new Star[750];
@@ -9,6 +10,7 @@ public void setup()
   size(800,800);
   ship = new SpaceShip();
   roids = new ArrayList <Asteroids> ();
+  ammo = new ArrayList <Bullet> (ship);
   for(int i = 0;i<10;i++) {
     roids.add(new Asteroids());
   }
@@ -26,16 +28,25 @@ public void draw()
   for(int i = 0;i<bunch.length;i++) {
     bunch[i].show();
   }
+  
+    
   ship.show();
   ship.move();
+  
   for(int i = 0;i<roids.size();i++) {
     roids.get(i).show();
     roids.get(i).move();
-    if(((ship.getX() < (roids.get(i).getX()+25))&&(ship.getX() > (roids.get(i).getX()-25)))&&((ship.getY() < (roids.get(i).getY()+25))&&(ship.getY() > (roids.get(i).getY()-25)))) {
-      roids.remove(i);
-      
-      roids.add(new Asteroids());
+    int d = dist(ship.getX(), ship.getY(), roids.get(i).getX(), roids.get(i).getY());
+    for(int j = 0; j<ammo.size(); j++) {
+      ammo.get(j).show();
+      ammo.get(j).move();
+      int dd = dist(ammo.get(j).getX(), ammo.get(j).getY(), roids.get(i).getX(), roids.get(i).getY());
+      if((d<35)||(dd<20)) {
+        roids.remove(i);
+        ammo.remove(j);
+        roids.add(new Asteroids());
       //roids.add(new Asteroids());
+      }
     }
   }
 
@@ -84,7 +95,10 @@ public void keyPressed() {
     fuego.setDirectionY(0);
     fuego.setPointDirection(num3);
   }
-
+}
+public void mousePressed() {
+  ammo.add(new Bullet(ship));
+  
 }
 class Star 
 {
@@ -95,6 +109,7 @@ class Star
     mySize = 3;
   }
   public void show() {
+    noStroke();
     fill(255,255,51);
     ellipse(myX,myY,mySize,mySize);
   }
@@ -171,6 +186,32 @@ class SpaceShip extends Floater
     public double getDirectionY(){return myDirectionY;}  
     public void setPointDirection(int degrees){myPointDirection = degrees;}   
     public double getPointDirection(){return myPointDirection;}
+}
+class Bullet extends Floater 
+{
+  private double dRadians;
+  public Bullet(Spaceship ship) {
+      myCenterX = ship.getX();
+      myCenterY = ship.getY();
+      myPointDirection = ship.getPointDirection();
+      dRadians = myPointDirection*(Math.PI/180);
+      myDirectionX = 5*Math.cos(dRadians) + ship.getDirectionX();
+      myDirectionY = 5*Math.sin(dRadians) + ship.getDirectionY();
+  }
+  public void setX(int x) {myCenterX = x;}
+  public int getX() {return (int)myCenterX;}   
+  public void setY(int y) {myCenterY = y;}   
+  public int getY(){return (int)myCenterY;}    
+  public void setDirectionX(double x){myDirectionX = x;}      public double getDirectionX(){return myDirectionX;}   
+  public void setDirectionY(double y){myDirectionY = y;} 
+  public double getDirectionY(){return myDirectionY;}  
+  public void setPointDirection(int degrees){myPointDirection = degrees;}   
+  public double getPointDirection(){return myPointDirection;}
+  public void show() {
+    fill(255,0,0);
+    noStroke();
+    ellipse(myCenterX,myCenterY,5,5);
+  }
 }
 class Asteroids extends Floater 
 {
