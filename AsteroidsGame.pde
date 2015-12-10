@@ -10,7 +10,7 @@ public void setup()
   size(800,800);
   ship = new SpaceShip();
   roids = new ArrayList <Asteroids> ();
-  ammo = new ArrayList <Bullet> (ship);
+  ammo = new ArrayList <Bullet> ();
   for(int i = 0;i<10;i++) {
     roids.add(new Asteroids());
   }
@@ -36,16 +36,21 @@ public void draw()
   for(int i = 0;i<roids.size();i++) {
     roids.get(i).show();
     roids.get(i).move();
-    int d = dist(ship.getX(), ship.getY(), roids.get(i).getX(), roids.get(i).getY());
+    double d = dist(ship.getX(), ship.getY(), roids.get(i).getX(), roids.get(i).getY());
+    if(d<35) {
+      roids.remove(i);
+      roids.add(new Asteroids());
+      //roids.add(new Asteroids());
+    }
     for(int j = 0; j<ammo.size(); j++) {
       ammo.get(j).show();
       ammo.get(j).move();
-      int dd = dist(ammo.get(j).getX(), ammo.get(j).getY(), roids.get(i).getX(), roids.get(i).getY());
-      if((d<35)||(dd<20)) {
-        roids.remove(i);
+      double dd = dist(ammo.get(j).getX(), ammo.get(j).getY(), roids.get(i).getX(), roids.get(i).getY());
+      if(dd<20) {
         ammo.remove(j);
+        roids.remove(i);
         roids.add(new Asteroids());
-      //roids.add(new Asteroids());
+        //roids.add(new Asteroids());
       }
     }
   }
@@ -96,8 +101,10 @@ public void keyPressed() {
     fuego.setPointDirection(num3);
   }
 }
-public void mousePressed() {
-  ammo.add(new Bullet(ship));
+public void mouseClicked() {
+  for(int i = 0; i<1; i++) {
+    ammo.add(new Bullet(ship));
+  }
   
 }
 class Star 
@@ -190,7 +197,7 @@ class SpaceShip extends Floater
 class Bullet extends Floater 
 {
   private double dRadians;
-  public Bullet(Spaceship ship) {
+  public Bullet(SpaceShip ship) {
       myCenterX = ship.getX();
       myCenterY = ship.getY();
       myPointDirection = ship.getPointDirection();
@@ -202,7 +209,8 @@ class Bullet extends Floater
   public int getX() {return (int)myCenterX;}   
   public void setY(int y) {myCenterY = y;}   
   public int getY(){return (int)myCenterY;}    
-  public void setDirectionX(double x){myDirectionX = x;}      public double getDirectionX(){return myDirectionX;}   
+  public void setDirectionX(double x){myDirectionX = x;}      
+  public double getDirectionX(){return myDirectionX;}   
   public void setDirectionY(double y){myDirectionY = y;} 
   public double getDirectionY(){return myDirectionY;}  
   public void setPointDirection(int degrees){myPointDirection = degrees;}   
