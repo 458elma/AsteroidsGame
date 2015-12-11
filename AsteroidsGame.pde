@@ -1,5 +1,6 @@
 //your variable declarations here
 SpaceShip ship;
+ArrayList <SpaceShipTwo> tie;
 ArrayList <Bullet> ammo;
 ArrayList <Asteroids> roids;
 Fire fuego;
@@ -9,6 +10,9 @@ public void setup()
   //your code here
   size(800,800);
   ship = new SpaceShip();
+  for(int i = 0; i<5; i++) {
+    tie.add(new SpaceShipTwo());
+  }
   roids = new ArrayList <Asteroids> ();
   ammo = new ArrayList <Bullet> ();
   for(int i = 0;i<10;i++) {
@@ -28,10 +32,12 @@ public void draw()
   for(int i = 0;i<bunch.length;i++) {
     bunch[i].show();
   }
-  
-    
   ship.show();
   ship.move();
+  for(int i = 0; i<tie.size(); i++) {
+    tie.get(i).show();
+    tie.get(i).move(); 
+  } 
   
   for(int i = 0;i<roids.size();i++) {
     roids.get(i).show();
@@ -53,11 +59,12 @@ public void draw()
         //roids.add(new Asteroids());
       }
     }
+    
   }
-
+//(ammo.get(j).getX()<0)||(ammo.get(j).getX()>800)||(ammo.get(j).getY()<0)||(ammo.get(j).getY()<800)
   //roids.getDirectionX()++;
   //roids.getDirectionY()++;
-    
+  
   
   fuego.move();
 }
@@ -100,6 +107,11 @@ public void keyPressed() {
     fuego.setDirectionY(0);
     fuego.setPointDirection(num3);
   }
+  /*if(key == 'g') {
+    for(int i = 0; i<1; i++) {
+      ammo.add(new Bullet(ship));
+    }
+  }*/
 }
 public void mouseClicked() {
   for(int i = 0; i<1; i++) {
@@ -174,7 +186,7 @@ class SpaceShip extends Floater
       yCorners[5] = 4; 
       xCorners[6] = -7; 
       yCorners[6] = -4;
-      myColor = 150;
+      myColor = 255;
       //myColor2 = 0;
       //myColor3 = 0;
       myCenterX = 400;
@@ -193,6 +205,39 @@ class SpaceShip extends Floater
     public double getDirectionY(){return myDirectionY;}  
     public void setPointDirection(int degrees){myPointDirection = degrees;}   
     public double getPointDirection(){return myPointDirection;}
+}
+class SpaceShipTwo extends SpaceShip  
+{   
+    //your code here
+    //protected int myColor2,myColor3;
+    public SpaceShipTwo() {
+      corners = 7;
+      xCorners =  new int[corners];
+      yCorners =  new int[corners];
+      xCorners[0] = -12;
+      yCorners[0] = -9; 
+      xCorners[1] = 7; 
+      yCorners[1] = -9; 
+      xCorners[2] = 13;  
+      yCorners[2] = 0;
+      xCorners[3] = 7;
+      yCorners[3] = 9; 
+      xCorners[4] = -12; 
+      yCorners[4] = 9; 
+      xCorners[5] = -7; 
+      yCorners[5] = 4; 
+      xCorners[6] = -7; 
+      yCorners[6] = -4;
+      myColor = 50;
+      //myColor2 = 0;
+      //myColor3 = 0;
+      myCenterX = 400;
+      myCenterY = 400;
+      myDirectionX = 0;
+      myDirectionY = 0;
+      myPointDirection = 0;
+    }
+    
 }
 class Bullet extends Floater 
 {
@@ -219,6 +264,10 @@ class Bullet extends Floater
     fill(255,0,0);
     noStroke();
     ellipse(myCenterX,myCenterY,5,5);
+  }
+  public void move ()   {      
+    myCenterX += myDirectionX;    
+    myCenterY += myDirectionY;     
   }
 }
 class Asteroids extends Floater 
