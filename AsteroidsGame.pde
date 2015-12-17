@@ -10,6 +10,7 @@ public void setup()
   //your code here
   size(800,800);
   ship = new SpaceShip();
+  tie = new ArrayList <SpaceShipTwo> ();
   for(int i = 0; i<5; i++) {
     tie.add(new SpaceShipTwo());
   }
@@ -27,8 +28,8 @@ public void draw()
 {
   //your code here
   background(0);
-
- 
+  int lmao = (Math.random()*3-1);
+  
   for(int i = 0;i<bunch.length;i++) {
     bunch[i].show();
   }
@@ -37,6 +38,25 @@ public void draw()
   for(int i = 0; i<tie.size(); i++) {
     tie.get(i).show();
     tie.get(i).move(); 
+    tie.get(i).accelerate(lmao);
+    tie.get(i).rotate(Math.random()*6-3);
+    double d = dist(ship.getX(), ship.getY(), tie.get(i).getX(), tie.get(i).getY());
+    if(d<20) {
+      tie.remove(i);
+      tie.add(new SpaceShipTwo());
+      //roids.add(new Asteroids());
+    }
+    for(int j = 0; j<ammo.size(); j++) {
+      ammo.get(j).show();
+      ammo.get(j).move();
+      double dd = dist(ammo.get(j).getX(), ammo.get(j).getY(), tie.get(i).getX(), tie.get(i).getY());
+      if(dd<20) {
+        ammo.remove(j);
+        tie.remove(i);
+        tie.add(new SpaceShipTwo());
+        //roids.add(new Asteroids());
+      }
+    }
   } 
   
   for(int i = 0;i<roids.size();i++) {
@@ -231,12 +251,24 @@ class SpaceShipTwo extends SpaceShip
       myColor = 50;
       //myColor2 = 0;
       //myColor3 = 0;
-      myCenterX = 400;
-      myCenterY = 400;
+      myCenterX = (int)(Math.random()*800);
+      myCenterY = (int)(Math.random()*800);
       myDirectionX = 0;
       myDirectionY = 0;
-      myPointDirection = 0;
+      myPointDirection = (int)(Math.random()*180);
     }
+    public void accelerate (double dAmount)   
+  {          
+    //convert the current direction the floater is pointing to radians    
+    double dRadians =myPointDirection*(Math.PI/180);     
+    //change coordinates of direction of travel    
+    myDirectionX += ((dAmount) * Math.cos(dRadians));    
+    myDirectionY += ((dAmount) * Math.sin(dRadians)); 
+    if((myDirectionX > 10)||(myDirectionY >10)) {
+      myDirectionX = 0;
+      myDirectionY = 0;
+    }      
+  }   
     
 }
 class Bullet extends Floater 
@@ -295,7 +327,7 @@ class Asteroids extends Floater
       yCorners[7] = -11; 
       myColor = 75;
       myCenterX = (int)(Math.random()*800);
-      myCenterY = (int)(Math.random()*800);;
+      myCenterY = (int)(Math.random()*800);
       myDirectionX = 0;
       myDirectionY = 0;
       myPointDirection = 0;
