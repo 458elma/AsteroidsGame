@@ -8,7 +8,7 @@ Star[] bunch = new Star[750];
 public void setup() 
 {
   //your code here
-  size(800,800);
+  size(800,800,P2D);
   ship = new SpaceShip();
   tie = new ArrayList <SpaceShipTwo> ();
   for(int i = 0; i<5; i++) {
